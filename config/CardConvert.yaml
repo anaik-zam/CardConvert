@@ -1,0 +1,55 @@
+card_types:
+  cards:
+    unity_folder: 'output'
+    frame_re: '.\d$'
+    anim_folder: animation
+    outputs:
+      - original
+      - animation
+      - small
+      - medium
+      - mediumj
+    composite: ''
+  heroes:
+    unity_folder: 'heroes'
+    frame_re: '_.\d*$'
+    anim_folder: animation
+    outputs:
+      - original
+      - animation
+    composite: ''
+  cardbacks:
+    unity_folder: 'cardbacks'
+    frame_re: '_.\d*$'
+    anim_folder: animation
+    outputs:
+      - original
+      - animation
+      - animation_temp
+      - small
+      - medium
+      - mediumj
+      - icons/small
+      - icons/medium
+      - icons/large
+    composite: 'watermark-cards-forgenerator.png'
+processes: 11
+
+# from unityproject/Assets/Scripts/Locale.cs
+#locale:
+#  - ruRU
+locale:
+  - enUS
+  - enGB
+  - frFR
+  - deDE
+  - koKR
+  - esES
+  - esMX
+  - ruRU
+  - zhTW
+  - zhCN
+  - itIT
+  - ptBR
+  - plPL
+  - ptPT
