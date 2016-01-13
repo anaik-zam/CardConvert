@@ -32,7 +32,7 @@ class Cards(BasicCard):
                 animated = False
                 basename = os.path.basename(path)
                 if basename in locale_list:
-                    locale = basename
+                    locale = basename.lower()
                     cards[locale] = {}
                 if basename == anim_folder:
                     animated = True

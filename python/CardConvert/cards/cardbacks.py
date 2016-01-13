@@ -33,7 +33,7 @@ class CardBacks(BasicCard):
         if os.path.isfile(bg_path):
             self._info['comp_out'] = []
             self._info['ff_out'] = []
-            input_, output = self._get_input_output('animation_temp')
+            input_, output = self._get_input_output('animated_temp')
             dirname = os.path.dirname(output)
             for file_ in self._info['animated']:
                 basename = os.path.basename(file_)

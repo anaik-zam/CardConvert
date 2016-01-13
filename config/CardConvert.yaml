@@ -5,7 +5,7 @@ card_types:
     anim_folder: animation
     outputs:
       - original
-      - animation
+      - animated
       - small
       - medium
       - mediumj
@@ -16,7 +16,7 @@ card_types:
     anim_folder: animation
     outputs:
       - original
-      - animation
+      - animated
     composite: ''
   cardbacks:
     unity_folder: 'cardbacks'
@@ -24,8 +24,8 @@ card_types:
     anim_folder: animation
     outputs:
       - original
-      - animation
-      - animation_temp
+      - animated
+      - animated_temp
       - small
       - medium
       - mediumj
@@ -36,8 +36,8 @@ card_types:
 processes: 11
 
 # from unityproject/Assets/Scripts/Locale.cs
-#locale:
-#  - ruRU
+# this actually doens't control which locales will be generated but
+# to generate a locale it needs to be in this list
 locale:
   - enUS
   - enGB
