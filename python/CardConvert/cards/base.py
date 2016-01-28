@@ -8,11 +8,11 @@ import subprocess
 from CardConvert import exceptions
 
 logger = logging.getLogger()
-handler = logging.FileHandler('/var/log/CardConvert/convert.log')
+handler = logging.StreamHandler()
 formatter = logging.Formatter('%(asctime)s %(name)-12s %(levelname)-8s %(message)s')
 handler.setFormatter(formatter)
 logger.addHandler(handler)
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.INFO)
 
 
 class BasicCard(object):
@@ -168,6 +168,7 @@ class BasicCard(object):
         Args:
             output_dir (str): base output path
         """
+        logger.info('CREATING OUTPUT FOLDERS:: %s:%s' % (self.name, self.locale))
         outputs = self.config['card_types'][self.card_class]['outputs']
         self._info['output_paths'] = {}
         for output in outputs:
@@ -199,6 +200,7 @@ class BasicCard(object):
             stdout_value (str): stdout
             stderr_values (str): stderr
         """
+        logger.info('CREATING MEDIUM SIZED COPY:: %s:%s' % (self.name, self.locale))
         input_, output = self._get_input_output('medium')
         cmd = self._make_medium_copy_cmd(input_, output)
         return_code, stdout_value, stderr_value = self.run_cmd(cmd)
@@ -226,6 +228,7 @@ class BasicCard(object):
             stdout_value (str): stdout
             stderr_values (str): stderr
         """
+        logger.info('CREATING SMALL SIZED COPY:: %s:%s' % (self.name, self.locale))
         input_, output = self._get_input_output('small')
         cmd = self._make_small_copy_cmd(input_, output)
         return_code, stdout_value, stderr_value = self.run_cmd(cmd)
@@ -253,6 +256,7 @@ class BasicCard(object):
             stdout_value (str): stdout
             stderr_values (str): stderr
         """
+        logger.info('CREATING MEDIUM SIZED JPG COPY:: %s:%s' % (self.name, self.locale))
         input_, output = self._get_input_output('mediumj')
         output, ext = os.path.splitext(output)
         output = '%s.jpg' % output
@@ -282,6 +286,7 @@ class BasicCard(object):
             stdout_value (str): stdout
             stderr_values (str): stderr
         """
+        logger.info('CREATING SMALL SIZED ICON:: %s:%s' % (self.name, self.locale))
         input_, output = self._get_input_output('icons/small')
         cmd = self._make_small_icons_cmd(input_, output)
         return_code, stdout_value, stderr_value = self.run_cmd(cmd)
@@ -309,6 +314,7 @@ class BasicCard(object):
             stdout_value (str): stdout
             stderr_values (str): stderr
         """
+        logger.info('CREATING MEDIUM SIZED ICON:: %s:%s' % (self.name, self.locale))
         input_, output = self._get_input_output('icons/medium')
         cmd = self._make_medium_icons_cmd(input_, output)
         return_code, stdout_value, stderr_value = self.run_cmd(cmd)
@@ -336,6 +342,7 @@ class BasicCard(object):
             stdout_value (str): stdout
             stderr_values (str): stderr
         """
+        logger.info('CREATING LARGE SIZED ICON:: %s:%s' % (self.name, self.locale))
         input_, output = self._get_input_output('icons/large')
         cmd = self._make_large_icons_cmd(input_, output)
         return_code, stdout_value, stderr_value = self.run_cmd(cmd)
@@ -366,7 +373,8 @@ class BasicCard(object):
             stderr_values (str): stderr
         """
         if self._info['animated']:
-            input_, output = self._get_input_output('animation')
+            logger.info('CREATING ANIMATED PNG:: %s:%s' % (self.name, self.locale))
+            input_, output = self._get_input_output('animated')
             cmd = self._make_animated_png_cmd(input_, output)
             return_code, stdout_value, stderr_value = self.run_cmd(cmd)
             if return_code != 0:
@@ -395,7 +403,8 @@ class BasicCard(object):
             stdout_value (str): stdout
             stderr_values (str): stderr
         """
-        input_, output = self._get_input_output('animation')
+        logger.info('CREATING ANIMATED GIF:: %s:%s' % (self.name, self.locale))
+        input_, output = self._get_input_output('animated')
         ## the animated png created from the _maked_animated_png is out input to create the gif
         input_ = copy.copy(output)
         output, ext = os.path.splitext(output)
@@ -424,7 +433,7 @@ class BasicCard(object):
         frame_re = self.config['card_types'][self.card_class]['frame_re']
         header = re.sub(frame_re, '_%04d', header)
         this_input_ = '%s%s' % (header, ext)
-        input_, output = self._get_input_output('animation')
+        input_, output = self._get_input_output('animated')
         output, ext = os.path.splitext(output)
         output = '%s.%s' % (output, fext)
         return this_input_, output
@@ -450,6 +459,7 @@ class BasicCard(object):
             stdout_value (str): stdout
             stderr_values (str): stderr
         """
+        logger.info('CREATING MP4:: %s:%s' % (self.name, self.locale))
         input_, output = self._web_format_prep(fext='mp4')
         cmd = self._make_mp4_cmd(input_, output)
         return_code, stdout_value, stderr_value = self.run_cmd(cmd)
@@ -477,6 +487,7 @@ class BasicCard(object):
             stdout_value (str): stdout
             stderr_values (str): stderr
         """
+        logger.info('CREATING WEBM:: %s:%s' % (self.name, self.locale))
         input_, output = self._web_format_prep(fext='webm')
         cmd = self._make_webm_cmd(input_, output)
         return_code, stdout_value, stderr_value = self.run_cmd(cmd)
@@ -507,6 +518,7 @@ class BasicCard(object):
         Args:
             output_dir (str): base output path
         """
+        logger.info('COPYING ORIGINALS:: %s:%s' % (self.name, self.locale))
         input_ = self._info['static']
         output = os.path.join(output_dir, self.card_class, self.locale, 'original')
         shutil.copy2(input_, output)
@@ -544,6 +556,7 @@ class BasicCard(object):
         Args:
             output_dir (str): base output path
         """
+        logger.info('PROCESSING:: %s:%s' % (self.name, self.locale))
         self._make_output_folders(output_dir)
         self._cp_original(output_dir)
         self._make_copies()

@@ -1,7 +1,8 @@
 import os
+import logging
 from base import BasicCard
 from CardConvert import exceptions
-
+logger = logging.getLogger('CardConvert.cards.base')
 
 class CardBacks(BasicCard):
     @property
@@ -31,6 +32,7 @@ class CardBacks(BasicCard):
         """
         bg_path = self._get_bg_path()
         if os.path.isfile(bg_path):
+            logger.info('COMPOSITING:: %s:%s' % (self.name, self.locale))
             self._info['comp_out'] = []
             self._info['ff_out'] = []
             input_, output = self._get_input_output('animated_temp')
@@ -74,7 +76,8 @@ class CardBacks(BasicCard):
             stderr_values (str): stderr
         """
         if self._info['comp_out']:
-            input_, output = self._get_input_output('animation')
+            logger.info('CREATING ANIMATED PNG:: %s:%s' % (self.name, self.locale))
+            input_, output = self._get_input_output('animated')
             cmd = self._make_animated_png_cmd(input_, output)
             return_code, stdout_value, stderr_value = self.run_cmd(cmd)
             if return_code != 0:
