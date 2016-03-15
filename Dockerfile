@@ -35,7 +35,7 @@ ENV BACKGROUNDS_FOLDER /CardConvert/backgrounds
 #RUN mkdir /var/log/CardConvert
 
 ## execute the card convert script
-CMD ["pycc", "/input", "/output"]
+#CMD ["pycc", "/input", "/output"]
 
 #docker build --no-cache -t anaik/cc:latest .
-#docker run -v /home/anaik/input:/input -v /home/anaik/foo:/output -v /var/log/CardConvert:/var/log/CardConvert -t -i anaik/cc /bin/bash
+#docker run -v /home/anaik/input:/input -v /home/anaik/output:/output -v /var/log/CardConvert:/var/log/CardConvert -t -i anaik/cc /bin/bash
